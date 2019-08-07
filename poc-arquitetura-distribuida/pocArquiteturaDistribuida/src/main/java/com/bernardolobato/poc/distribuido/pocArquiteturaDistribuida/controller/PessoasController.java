@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,17 +23,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.net.URI;
 
 @RestController
 @RequestMapping("/pessoas")
+@Api(value = "Pessoas")
 public class PessoasController {
 
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    @GetMapping
     @Cacheable(value = "listaDePessoas")
+    @ApiOperation(value = "Lista de Pessoas")
+    @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Page<PessoaDTO> lista(@RequestParam(required = false) String nome,
             @PageableDefault(sort = "id", direction = Direction.ASC) Pageable paginacao) {
         Page<Pessoa> pessoas;
@@ -50,6 +55,7 @@ public class PessoasController {
 
     @PostMapping
     @CacheEvict(value = "listaDePessoas", allEntries = true)
+    @ApiOperation(value = "Cadastro de Pessoa")
     public ResponseEntity<PessoaDTO> save(@RequestBody @Valid PessoaForm form,
             UriComponentsBuilder uriBuilder) {
         Pessoa p = form.convert();
@@ -60,6 +66,7 @@ public class PessoasController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Detalhe de Pessoa")
     public PessoaDTO detalhar(@PathVariable Long id) {
         Pessoa pessoa = pessoaRepository.getOne(id);
         return new PessoaDTO(pessoa);
