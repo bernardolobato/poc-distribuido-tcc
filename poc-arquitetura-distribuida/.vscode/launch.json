@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PocArquiteturaDistribuidaApplication<pocArquiteturaDistribuida>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.bernardolobato.poc.distribuido.pocArquiteturaDistribuida.PocArquiteturaDistribuidaApplication",
+            "projectName": "pocArquiteturaDistribuida",
+            "args": ""
+        }
+    ]
+}
